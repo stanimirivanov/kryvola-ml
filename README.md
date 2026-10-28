@@ -51,6 +51,10 @@ Run this heavier gate on CI: `uv run --locked python tools/verify.py full`.
 - [Implementation plan v2](https://github.com/stanimirivanov/kryvola-spec/blob/647986b9ba9cb2c6d3b853046272e3869b6fea5e/docs/kryvola-implementation-plan-v2.md)
 - [Schema-stack amendment](https://github.com/stanimirivanov/kryvola-spec/blob/647986b9ba9cb2c6d3b853046272e3869b6fea5e/docs/adr/0001-schema-authoring.md): Redocly for OpenAPI; Effect v4 / TypeScript 7 author other contracts. Generated JSON/native structural projections keep this repository's approved runtime intact.
 
-The owner domain retains private keys. SDK/planner code consumes released spec contracts and packaged owner bindings, never fabric/engine internal source. The planner must reject unsupported trust/precision/evidence requirements; no planner or model is yet implemented.
+The owner domain retains private keys. SDK/planner code consumes released spec contracts and packaged owner bindings, never fabric/engine internal source. The planner must reject unsupported trust/precision/evidence requirements; it remains unimplemented.
+
+The [deterministic plaintext reference](docs/baseline.md) implements bounded
+unsigned ADD/MUL circuits with explicit modular overflow. Its public example and
+synthetic tests do not freeze a workload, qualify a model or enable a profile.
 
 Next planned work: KRY-009 a measured approved quantized model/profile, then KRY-013/014/015 owner crypto and SDK lifecycle.

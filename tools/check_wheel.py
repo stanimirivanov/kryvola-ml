@@ -29,6 +29,10 @@ for name, path in [('ModelDescriptor', 'model'), ('MeasurementReport', 'measurem
     fixture = root.joinpath('_spec/fixtures/profiles/'+path+'.json')
     validate_contract(name, json.loads(fixture.read_bytes()))
 validate_artifact_ref(json.loads(root.joinpath('_spec/fixtures/artifact-ref.json').read_bytes()))
+from kryvola_ml.baseline import tiny_circuit
+model = json.loads(root.joinpath('_spec/fixtures/profiles/model.json').read_bytes())
+model['workload']['operators'] = ['ADD', 'MUL']
+assert tiny_circuit(model).evaluate((255, 255)) == (255, 12)
 """
 with TemporaryDirectory() as directory:
     subprocess.run(

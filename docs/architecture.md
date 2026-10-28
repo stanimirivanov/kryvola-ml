@@ -2,7 +2,7 @@
 
 Source: design v2 sections 4.3, 5, 6, 7 and 13; plan v2 M0; [schema amendment](https://github.com/stanimirivanov/kryvola-spec/blob/647986b9ba9cb2c6d3b853046272e3869b6fea5e/docs/adr/0001-schema-authoring.md).
 
-The owner domain retains private keys. SDK/planner code consumes released spec contracts and packaged owner bindings, never fabric/engine internal source. The planner must reject unsupported trust/precision/evidence requirements; no planner or model is yet implemented.
+The owner domain retains private keys. SDK/planner code consumes released spec contracts and packaged owner bindings, never fabric/engine internal source. The planner must reject unsupported trust/precision/evidence requirements; it remains unimplemented. The [plaintext baseline](baseline.md) consumes generated descriptor metadata and owns only bounded local integer evaluation. Frozen artifact bindings and crypto qualification remain separate.
 
 | Requirement | Governed code/configuration | Evaluation | Limit / review |
 |---|---|---|---|
