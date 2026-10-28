@@ -1,5 +1,16 @@
 # Foundation progress
 
+## M0-PR27 — deterministic integer reference
+
+Issue: #5. Adds immutable bounded plaintext ADD/MUL circuits, a public six-operation
+example, explicit uint8/16/32/64 wrapping, strict integer ranges and generated
+descriptor consumption. Synthetic golden/oracle tests cover arithmetic boundaries,
+unsupported operators, graph/shape validation and repeated execution. This does
+not freeze a workload, validate artifact digests, qualify crypto or enable a profile.
+Formatting/lint fixes, focused tests and fast checks run locally; full build and
+isolated wheel verification are delegated to CI, with no remote result claimed.
+M0-PR28 remains responsible for the frozen public workload and benchmark adapter.
+
 ## M0-PR16 — Python contract consumption
 
 Issue: #3. Consumes immutable spec revision
