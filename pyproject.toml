@@ -36,3 +36,6 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/kryvola_ml"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"fixtures/fhe-q1" = "kryvola_ml/_fixtures/fhe-q1"

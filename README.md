@@ -55,6 +55,8 @@ The owner domain retains private keys. SDK/planner code consumes released spec c
 
 The [deterministic plaintext reference](docs/baseline.md) implements bounded
 unsigned ADD/MUL circuits with explicit modular overflow. Its public example and
-synthetic tests do not freeze a workload, qualify a model or enable a profile.
+synthetic tests do not qualify a model or enable a profile. The separate
+[frozen public workload](docs/model-card.md) packages 100 reproducible uint8 cases,
+expected outputs, program/license bytes and a plaintext benchmark adapter.
 
 Next planned work: KRY-009 a measured approved quantized model/profile, then KRY-013/014/015 owner crypto and SDK lifecycle.

@@ -15,6 +15,9 @@ with ZipFile(wheel) as archive:
         manifest = json.loads((source / "manifest.json").read_bytes())
         for name in ["manifest.json", *manifest["files"]]:
             assert archive.read(f"kryvola_ml/{folder}/{name}") == (source / name).read_bytes()
+    fixture = ROOT / "fixtures/fhe-q1"
+    for path in fixture.iterdir():
+        assert archive.read(f"kryvola_ml/_fixtures/fhe-q1/{path.name}") == path.read_bytes()
 SMOKE = """import json, sys
 sys.path.insert(0, sys.argv[1])
 import kryvola_ml
@@ -33,6 +36,9 @@ from kryvola_ml.baseline import tiny_circuit
 model = json.loads(root.joinpath('_spec/fixtures/profiles/model.json').read_bytes())
 model['workload']['operators'] = ['ADD', 'MUL']
 assert tiny_circuit(model).evaluate((255, 255)) == (255, 12)
+from kryvola_ml.baseline.fixture import verify_fixture, benchmark_one
+assert verify_fixture()['cases'] == 100
+assert set(benchmark_one(b'0\\n')) == {'stages_ns'}
 """
 with TemporaryDirectory() as directory:
     subprocess.run(
