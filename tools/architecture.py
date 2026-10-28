@@ -15,6 +15,11 @@ REPO = "kryvola-ml"
 IMPLEMENTATIONS = {"kryvola_fabric", "kryvola_engines", "kryvola_ml", "kryvola_platform"}
 
 REQUIRED_ARTIFACTS = {
+    "control/Operation.schema.json",
+    "engine/ExecuteRequest.schema.json",
+    "profiles/ModelDescriptor.schema.json",
+    "profiles/MeasurementReport.schema.json",
+    "profiles/ReleaseCandidate.schema.json",
     "python/limits.py",
     "artifact-ref.schema.json",
     "limits.json",
@@ -27,6 +32,7 @@ REQUIRED_ARTIFACTS = {
     "cpp/limits.hpp",
     "python/artifact_ref.py",
 }
+REQUIRED_NATIVE = {"descriptor.bin", "schemas.json", "vectors.json", "fixtures.json"}
 
 
 def is_foreign(name: str, forbidden: set[str]) -> bool:
@@ -65,6 +71,41 @@ def verify_contracts(root: Path) -> None:
             raise ValueError(f"contracts: unsafe manifest path {name}")
         if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
             raise ValueError(f"contracts: modified generated artifact {name}")
+    native = (root / lock["native_artifact_root"]).resolve()
+    if not native.is_relative_to(root.resolve()):
+        raise ValueError("contracts: native artifact root escapes repository")
+    raw_native = (native / "manifest.json").read_bytes()
+    if hashlib.sha256(raw_native).hexdigest() != lock["native_manifest_sha256"]:
+        raise ValueError("contracts: native manifest digest mismatch")
+    native_manifest = json.loads(raw_native)
+    if native_manifest["contract_version"] != lock["contract_version"]:
+        raise ValueError("contracts: native contract version mismatch")
+    if not REQUIRED_NATIVE.issubset(native_manifest["files"]):
+        raise ValueError("contracts: required native projections missing")
+    actual_native = {
+        p.relative_to(native).as_posix()
+        for p in native.rglob("*")
+        if p.is_file() and "__pycache__" not in p.parts
+    }
+    if actual_native != {"manifest.json", *native_manifest["files"]}:
+        raise ValueError("contracts: missing or unlisted native artifacts")
+    for name, digest in native_manifest["files"].items():
+        path = (native / name).resolve()
+        if (
+            not path.is_relative_to(native)
+            or hashlib.sha256(path.read_bytes()).hexdigest() != digest
+        ):
+            raise ValueError("contracts: modified native artifact")
+    sources = {
+        name.removeprefix("generated/"): digest
+        for name, digest in native_manifest["sources"].items()
+        if name.startswith("generated/")
+    }
+    if set(sources) != expected or any(
+        hashlib.sha256((vendor / name).read_bytes()).hexdigest() != digest
+        for name, digest in sources.items()
+    ):
+        raise ValueError("contracts: mixed generated/native bundles")
 
 
 def dependency_errors(root: Path, repo: str) -> list[str]:
@@ -84,7 +125,7 @@ def dependency_errors(root: Path, repo: str) -> list[str]:
                 f"pyproject.toml: local source dependency {name} is not a release artifact"
             )
     for path in sorted((root / "src").rglob("*.py")):
-        if "_spec" in path.parts:
+        if {"_spec", "_wire"}.intersection(path.parts):
             continue
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         for node in ast.walk(tree):

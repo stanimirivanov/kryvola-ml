@@ -8,3 +8,4 @@
 - No private key, ciphertext/proof blob, credential or plaintext witness belongs in control-plane messages or logs. Structural metadata validation is not authorization or proof of cryptographic security.
 - Complete when affected checks pass, custom negative controls remain effective, progress matches observed evidence, and only issue-related changes are staged.
 - Follow the authorized dedicated-issue/branch/PR workflow. Preserve unrelated work; do not merge, poll CI or revise a delivered PR without an explicit request.
+- Before committing, run automatic formatting and lint fixes on supported authored files, then recheck affected gates. Preserve vendored `_spec`/`_wire` bytes exactly; keep heavy checks on CI when requested.

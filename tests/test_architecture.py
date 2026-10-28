@@ -10,7 +10,12 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from tools.architecture import REQUIRED_ARTIFACTS, dependency_errors, verify_contracts
+from tools.architecture import (
+    REQUIRED_ARTIFACTS,
+    REQUIRED_NATIVE,
+    dependency_errors,
+    verify_contracts,
+)
 
 
 class ArchitectureTests(unittest.TestCase):
@@ -27,6 +32,23 @@ class ArchitectureTests(unittest.TestCase):
             entries[name] = hashlib.sha256(data).hexdigest()
         manifest = json.dumps({"contract_version": "fixture", "files": entries}).encode()
         (vendor / "manifest.json").write_bytes(manifest)
+        native = root / "contracts/native"
+        native.mkdir(parents=True)
+        native_files = {}
+        for name in REQUIRED_NATIVE:
+            (native / name).write_bytes(data)
+            native_files[name] = hashlib.sha256(data).hexdigest()
+        native_manifest = json.dumps(
+            {
+                "contract_version": "fixture",
+                "files": native_files,
+                "sources": {
+                    "generated/" + name: hashlib.sha256((vendor / name).read_bytes()).hexdigest()
+                    for name in ["manifest.json", *entries]
+                },
+            }
+        ).encode()
+        (native / "manifest.json").write_bytes(native_manifest)
         (root / "spec.lock.json").write_text(
             json.dumps(
                 {
@@ -35,6 +57,8 @@ class ArchitectureTests(unittest.TestCase):
                     "revision": "a" * 40,
                     "artifact_root": "contracts/spec",
                     "manifest_sha256": hashlib.sha256(manifest).hexdigest(),
+                    "native_artifact_root": "contracts/native",
+                    "native_manifest_sha256": hashlib.sha256(native_manifest).hexdigest(),
                 }
             ),
             encoding="utf-8",
@@ -62,6 +86,25 @@ class ArchitectureTests(unittest.TestCase):
                 verify_contracts(root)
             (root / "spec.lock.json").unlink()
             with self.assertRaises(OSError):
+                verify_contracts(root)
+
+    def test_native_tampering_and_mixed_bundles_fail(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.fixture(root)
+            native = root / "contracts/native"
+            (native / "descriptor.bin").write_bytes(b"tampered")
+            with self.assertRaisesRegex(ValueError, "modified native"):
+                verify_contracts(root)
+            (native / "descriptor.bin").write_bytes(b"fixture\n")
+            path = native / "manifest.json"
+            manifest = json.loads(path.read_bytes())
+            manifest["sources"]["generated/limits.json"] = "0" * 64
+            path.write_text(json.dumps(manifest), encoding="utf-8")
+            lock = json.loads((root / "spec.lock.json").read_bytes())
+            lock["native_manifest_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+            (root / "spec.lock.json").write_text(json.dumps(lock), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "mixed generated/native"):
                 verify_contracts(root)
 
     def test_forbidden_import_reports_location_and_cli_fails(self) -> None:
