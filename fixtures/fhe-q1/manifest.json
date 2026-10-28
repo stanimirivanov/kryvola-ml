@@ -1,0 +1,11 @@
+{
+  "files": {
+    "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "expected.csv": "cc714416fc2c6c80d60073ca1fcd2c4d95cdf4989dc38095583b5b327b2c8913",
+    "inputs.csv": "355c6ef5c34b25798a4f75bac2fae55ea055ab8971b62865e3995cbc700ffa16",
+    "model-card.md": "ee839e25d05a670420d34e333a54770b49a44810122335ba36609a25e7a17f64",
+    "program.txt": "247ef123aeea9684b0e1d1f14268b74d9228b4b50ba3aaf007c7fa05235467fb"
+  },
+  "fixture_id": "FHE-Q1-uint8-v1",
+  "hash_algorithm": "sha256"
+}

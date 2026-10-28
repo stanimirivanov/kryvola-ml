@@ -43,7 +43,8 @@ from the built wheel in isolation. No heavy benchmark is required for this slice
 
 Descriptor validation here is structural plus local arithmetic/shape checks;
 artifact/model/program/dataset digest bindings are not verified. Synthetic test
-metadata is not release evidence. M0-PR28 owns the frozen public workload,
-dataset/license/model card, exact program/fixture hashes and benchmark adapter.
+metadata is not release evidence. The separate [frozen workload](model-card.md)
+adds licensed synthetic data, exact byte pins and a plaintext benchmark adapter;
+actual engine/parameter release bindings remain pending.
 No training/importer, private weights, crypto execution, accuracy claim, planner,
 MeasurementReport or profile activation is supplied by this reference.

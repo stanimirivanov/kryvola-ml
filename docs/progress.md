@@ -1,5 +1,17 @@
 # Foundation progress
 
+## M0-PR28 — frozen public FHE-Q1 plaintext workload
+
+Issue: #7. Freezes the public uint8 circuit, 100-case synthetic boundary grid,
+exact output bytes, license and model card. An independently pinned SHA-256
+manifest guards the packaged files; verification reproduces outputs without
+rewriting expectations. A bounded plaintext adapter emits M0-PR25 numeric stage
+telemetry and rejects malformed requests or fixture/reference drift.
+Focused reproduction/tampering/CLI controls and fast checks run locally after
+automatic formatting/lint fixes. The existing full CI gate verifies wheel-only
+resources and execution; no remote pass is claimed. Engine/crypto parameter
+bindings, encrypted correctness, performance and release qualification remain pending.
+
 ## M0-PR27 — deterministic integer reference
 
 Issue: #5. Adds immutable bounded plaintext ADD/MUL circuits, a public six-operation
