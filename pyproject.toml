@@ -4,7 +4,10 @@ version = "0.1.0.dev0"
 description = "Kryvola M0 foundation; no production execution capability"
 requires-python = ">=3.14,<3.15"
 license = "Apache-2.0"
-dependencies = ["jsonschema==4.26.0"]
+dependencies = [
+    "jsonschema==4.26.0",
+    "protobuf==7.35.1",
+]
 
 [dependency-groups]
 dev = ["ruff==0.17.2", "ty==0.0.91", "hatchling==1.32.4"]
@@ -16,7 +19,7 @@ package = true
 [tool.ruff]
 target-version = "py314"
 line-length = 100
-extend-exclude = ["**/_spec/**", "contracts", "build", "target", "dist"]
+extend-exclude = ["**/_spec/**", "**/_wire/**", "contracts", "build", "target", "dist"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
@@ -25,7 +28,7 @@ select = ["E", "F", "I", "UP", "B"]
 python-version = "3.14"
 
 [tool.ty.src]
-exclude = ["contracts", "**/_spec/**", "build", "target", "dist"]
+exclude = ["contracts", "**/_spec/**", "**/_wire/**", "build", "target", "dist"]
 
 [build-system]
 requires = ["hatchling==1.32.4"]

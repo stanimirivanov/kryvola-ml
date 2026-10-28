@@ -17,6 +17,34 @@ uv run --locked python -m kryvola_ml
 
 No service credentials or local databases are required for this scope. `spec.lock.json` pins immutable generated spec artifacts; a sibling checkout is unnecessary. Generated structural types are not native decoders or authorization. [Architecture and enforcement](docs/architecture.md), [progress](docs/progress.md), and the source references below describe limits.
 
+## Contract previews (M0-PR16)
+
+`kryvola_ml.sdk.contracts.validate_contract(kind, mapping)` validates an owned copy
+against the published structural schemas. Supported kinds are the 17 native control
+and Engine API records, plus `AssuranceProfile`, `AssuranceRequest`,
+`ConsentDeclaration`, `ModelDescriptor`, `MeasurementReport` and `ReleaseCandidate`.
+`validate_artifact_ref(mapping)` retains its existing signature, return type and errors.
+
+`decode_control(kind, payload)` decodes immutable Protobuf bytes up to 65,536 bytes
+using the pinned descriptor set. It rejects unknown fields recursively before
+returning generated-schema-validated metadata. Ordinary Protobuf order/merge
+semantics apply; this is not a canonical signing format. New entry points raise
+`ContractError` with `INVALID_CONTRACT` or `CONTROL_TOO_LARGE`, without parser
+diagnostics or exception chains. Avoid logging caller-supplied metadata.
+
+The spec preview.10 bundles are pinned at
+[`1a5b57a`](https://github.com/stanimirivanov/kryvola-spec/tree/1a5b57a590487ba116913050af8041f5e5f1fb52).
+Both bundles ship inside the wheel; the pinned Protobuf runtime supplies decoding.
+These are **structural** previews. Cross-field/cross-record consistency, exact-file
+hash bindings, tenant authorization, fencing/deadline checks, evidence policy,
+and release qualification still require the owning spec/runtime gates. A synthetic
+model or measurement fixture cannot enable a profile or establish crypto feasibility.
+No async inference method, planner behavior, key handling or network client is added.
+
+The full harness builds a wheel, compares its packaged artifacts byte for byte,
+and exercises imports and golden decoding from the wheel in an isolated process.
+Run this heavier gate on CI: `uv run --locked python tools/verify.py full`.
+
 ## Authoritative context
 
 - [Design v2](https://github.com/stanimirivanov/kryvola-spec/blob/647986b9ba9cb2c6d3b853046272e3869b6fea5e/docs/kryvola-design-v2.md)

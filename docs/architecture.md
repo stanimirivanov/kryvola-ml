@@ -9,12 +9,21 @@ The owner domain retains private keys. SDK/planner code consumes released spec c
 | Runtime/module ownership | `src/` | Compiler/type checker and `tools/architecture.py` | Semantic responsibility remains code review |
 | No sibling implementation source dependency | `pyproject.toml`, Python imports | AST/manifest check; isolated forbidden-import and sibling-path fixtures in tests | Dynamic imports/native calls and CMake dependency changes require review |
 | Contracts come from spec | `spec.lock.json` and vendored artifacts | Commit/repository identity plus SHA-256 manifest/file integrity checks | Build provenance is not cryptographic authorization; update source and pin in a reviewed change |
-| Reference-only bounded control | Generated contract preview | Effect-generated JSON Schema and negative fixtures | No native ciphertext decode, expanded-memory accounting or RPC payload guard yet |
+| Reference-only bounded control | `sdk/contracts.py`, generated/native bundles | Structural schema validation, bounded Protobuf decoding and recursive unknown-field rejection | No ciphertext decode, expanded-memory accounting, RPC transport or authorization |
 | No unqualified production claim | Capability diagnostic | Documented inspect command; code review | No inference, crypto qualification or deployed stack |
 | Reproducible setup / required checks | Toolchain pins, `uv.lock`, `tools/verify.py` | README fast/full commands, same commands in CI | Full cryptographic, hardware and operational gates remain deferred |
 | Codex guidance | Root `AGENTS.md` | Git-root discovery applies through child working directories; no overrides | Client trust/activation is user-managed; no config or model override is installed |
 
 The custom architecture tool examines declared dependencies and static Python imports, not arbitrary program behavior. Its isolated fixtures demonstrate both valid acceptance and representative failure, including nonzero CLI exit. Required inputs are never optional and failures propagate through the canonical task runner.
+
+M0-PR16 pins the complete generated and native preview.10 bundles in `_spec` and
+`_wire`. Their manifest digests, file sets, bytes and native source hashes must
+agree; mixed snapshots fail even if both manifests are individually rehashed.
+`_wire` is vendored data, not an implementation dependency: no generated gRPC
+client or native code is executed. Wheel-only verification checks all artifacts
+and exercises the same golden vectors without the source checkout on `sys.path`.
+JSON Schema acceptance is structural only; spec semantic/cross-record checks,
+canonicalization, authorization and production qualification remain separate.
 
 CI is configured on pull requests/main pushes with commit-pinned actions, `contents: read`, no persistent Git credentials and no production secrets. A hosted CI result is not claimed by configuration. Maintainers must enable required status checks (`verify`), review/branch rules and any desired repository security settings; no remote protections are changed here. Local hooks are not merge enforcement.
 

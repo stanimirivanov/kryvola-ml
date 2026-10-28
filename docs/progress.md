@@ -1,5 +1,24 @@
 # Foundation progress
 
+## M0-PR16 — Python contract consumption
+
+Issue: #3. Consumes immutable spec revision
+`1a5b57a590487ba116913050af8041f5e5f1fb52` (preview.10).
+Adds structural control/Engine API, assurance and model/measurement/release
+validation and bounded Protobuf decoding. Existing ArtifactRef validation is
+preserved. Both complete bundles are packaged and checked for provenance and
+pairing; isolated wheel decoding is part of the full CI harness.
+
+Focused verification covers all 20 published wire vectors, profile fixtures,
+malformed metadata, recursive unknown fields, safe errors, bundle tampering and
+mixed snapshots. Observed locally: all 14 Python tests and the fast formatting,
+lint, type, dependency and provenance gates passed.
+Full harness/wheel verification is delegated to CI; its results
+are not claimed here. No inference, planner, crypto, canonical signing, semantic
+release qualification or profile activation is implemented by this slice.
+
+## Initial scaffold
+
 Issue: #1. Scope: initial M0 repository scaffold, 25 October 2026.
 
 - Implemented: python owner sdk contract and planner boundaries, versioned spec consumption, isolated architecture controls and diagnostics.
