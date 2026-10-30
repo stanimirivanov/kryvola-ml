@@ -55,8 +55,6 @@ The authoritative [plan](https://github.com/stanimirivanov/kryvola-spec/blob/647
 
 ## Observed acceptance evidence
 
-On Windows with Python 3.14.7 / uv 0.12.5, `uv run --locked python tools/verify.py full` passed: Ruff formatting/lint, ty type checks, spec provenance and dependency checks, 8 Python tests, and Effect-generated JSON Schema validation, strict negative cases and Python wheel build.
-
 A new disposable environment passed `uv sync --locked --no-editable`. The installed wheel loaded from that environment rather than the source checkout, and its packaged data/diagnostic worked. Diagnostics: `uv run --locked python -m kryvola_ml`.
 
 Root AGENTS.md discovery through nested working directories and local documentation links were checked. Existing LICENSE bytes are unchanged. Schema source commit and manifest digests are recorded in `spec.lock.json`; no sibling checkout is required.
