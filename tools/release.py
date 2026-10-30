@@ -201,7 +201,7 @@ def build():
                     "builder": {"id": os.environ.get("GITHUB_WORKFLOW_REF", "LOCAL_QUALIFICATION")},
                     "metadata": {
                         "python": sys.version.split()[0],
-                        "uv": tomllib.loads((ROOT / "pyproject.toml").read_text())["tool.uv"][
+                        "uv": tomllib.loads((ROOT / "pyproject.toml").read_text())["tool"]["uv"][
                             "required-version"
                         ],
                     },
