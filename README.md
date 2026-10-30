@@ -60,3 +60,6 @@ synthetic tests do not qualify a model or enable a profile. The separate
 expected outputs, program/license bytes and a plaintext benchmark adapter.
 
 Next planned work: KRY-009 a measured approved quantized model/profile, then KRY-013/014/015 owner crypto and SDK lifecycle.
+
+[Experimental baseline publication](docs/publication.md) documents qualified
+source-addressed wheels, manual publishing and independently pinned verification.
