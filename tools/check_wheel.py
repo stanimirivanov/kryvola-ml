@@ -1,5 +1,6 @@
 """CI-only wheel resource and isolated import check; no source checkout on sys.path."""
 
+import argparse
 import json
 import subprocess
 import sys
@@ -8,7 +9,13 @@ from tempfile import TemporaryDirectory
 from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-wheel = max((ROOT / "dist").glob("*.whl"), key=lambda path: path.stat().st_mtime_ns)
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--wheel", type=Path)
+args = parser.parse_args()
+candidates = [args.wheel] if args.wheel else list((ROOT / "dist").glob("*.whl"))
+if len(candidates) != 1:
+    raise ValueError("EXPECTED_ONE_EXPLICIT_WHEEL")
+wheel = candidates[0].resolve()
 with ZipFile(wheel) as archive:
     for folder in ("_spec", "_wire"):
         source = ROOT / "src/kryvola_ml" / folder
