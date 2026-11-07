@@ -5,6 +5,7 @@ description = "Kryvola M0 foundation; no production execution capability"
 requires-python = ">=3.14,<3.15"
 license = "Apache-2.0"
 dependencies = [
+    "blake3==1.0.8",
     "jsonschema==4.26.0",
     "protobuf==7.35.1",
 ]

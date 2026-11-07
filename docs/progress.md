@@ -76,3 +76,10 @@ architecture/provenance checks, wheel build and isolated fixture reproduction.
 Publication tests include source/version, missing/tampered assets, duplicate JSON,
 wrong publisher and missing spec/wire/fixture resources. Signed publication remains
 a separate manual action; no release or profile approval is inferred from tests.
+
+## M1-PR15 fixed plan compiler
+
+The [planner](planner.md) emits the canonical v2 plan and committed resource,
+output, evidence and leakage metadata for the frozen public FHE-Q1 circuit.
+The ML gate checks the Spec reference digest, unsupported model and policy
+inputs, and compilation from the built wheel.

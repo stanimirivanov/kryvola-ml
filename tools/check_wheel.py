@@ -43,6 +43,18 @@ from kryvola_ml.baseline import tiny_circuit
 model = json.loads(root.joinpath('_spec/fixtures/profiles/model.json').read_bytes())
 model['workload']['operators'] = ['ADD', 'MUL']
 assert tiny_circuit(model).evaluate((255, 255)) == (255, 12)
+from kryvola_ml.planner import ApprovedBindings, compile_fixed_plan
+program = root.joinpath('_fixtures/fhe-q1/program.txt').read_bytes()
+program_digest = '52687303e4a13081f0f40c15bfa0fafbf35812fb96a3d30f99206ee534c010f5'
+bindings = ApprovedBindings('tenant-fixture', '1'*64, '2'*64, '3'*64, '4'*64, '5'*64)
+model['workload'].update(
+    parameter_set_digest='cda9e129d55cc6a17060d8913f6e0d554c5a990e62c967514db86bf57a524674',
+    model_digest=bindings.model_digest, engine_digest=bindings.engine_digest,
+    program_digest=program_digest,
+)
+model['reference_program_digest'] = program_digest
+plan = compile_fixed_plan(model, program, bindings, assurance='CONFIDENTIALITY_ONLY')
+assert plan.plan_digest == '7650f2818f613da49963d991ae091f2b66062d511db7419b0d7cee6b3bd99e31'
 from kryvola_ml.baseline.fixture import verify_fixture, benchmark_one
 assert verify_fixture()['cases'] == 100
 assert set(benchmark_one(b'0\\n')) == {'stages_ns'}
