@@ -83,3 +83,10 @@ The [planner](planner.md) emits the canonical v2 plan and committed resource,
 output, evidence and leakage metadata for the frozen public FHE-Q1 circuit.
 The ML gate checks the Spec reference digest, unsupported model and policy
 inputs, and compilation from the built wheel.
+
+## M1-PR27 encrypted SDK submission
+
+The [submission SDK](encrypted-submission.md) prepares encrypted inputs and
+owner approval once, then delivers immutable references through the published
+Fabric submission routes. The recorded TLS test checks ambiguous admission,
+repeated delivery, payload separation, and typed rate-limit and owner failures.

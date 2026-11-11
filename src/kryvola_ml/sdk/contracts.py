@@ -34,6 +34,20 @@ _SCHEMAS = {
             "AssuranceProfile": "assurance-profile.schema.json",
             "AssuranceRequest": "assurance-request.schema.json",
             "ConsentDeclaration": "consent-declaration.schema.json",
+            "ManifestV2": "canonical/v2/manifest.schema.json",
+            "KeyContext": "canonical/key-context.schema.json",
+            "ApprovalV3": "canonical/v3/approval.schema.json",
+            "SignatureV3": "canonical/v3/signature.schema.json",
+            "RegisterKeyContextRequest": "runtime/RegisterKeyContextRequest.schema.json",
+            "CreateInputUploadRequest": "runtime/CreateInputUploadRequest.schema.json",
+            "CreateUploadResponse": "runtime/CreateUploadResponse.schema.json",
+            "FinalizeUploadResponse": "runtime/FinalizeUploadResponse.schema.json",
+            "RegisterComputeApprovalRequest": "runtime/RegisterComputeApprovalRequest.schema.json",
+            "RegisterComputeApprovalResponse": (
+                "runtime/RegisterComputeApprovalResponse.schema.json"
+            ),
+            "AdmitApprovedOperationRequest": "runtime/AdmitApprovedOperationRequest.schema.json",
+            "OperationResponse": "runtime/OperationResponse.schema.json",
         }.items()
     },
 }
