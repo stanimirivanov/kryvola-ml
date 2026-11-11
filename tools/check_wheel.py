@@ -56,6 +56,9 @@ model['reference_program_digest'] = program_digest
 plan = compile_fixed_plan(model, program, bindings, assurance='CONFIDENTIALITY_ONLY')
 assert plan.plan_digest == '7650f2818f613da49963d991ae091f2b66062d511db7419b0d7cee6b3bd99e31'
 from kryvola_ml.baseline.fixture import verify_fixture, benchmark_one
+from kryvola_ml.sdk.client import Client, SubmissionError
+from kryvola_ml.sdk.owner import OwnerAgent
+from kryvola_ml.sdk.submission import prepare_submission, submit
 assert verify_fixture()['cases'] == 100
 assert set(benchmark_one(b'0\\n')) == {'stages_ns'}
 """

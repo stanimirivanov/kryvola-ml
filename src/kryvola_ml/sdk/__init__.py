@@ -1,1 +1,1 @@
-"""Owner SDK contract preview; encryption and submission are not implemented."""
+"""Owner-local preparation and delivery of approved encrypted inference."""
