@@ -90,3 +90,12 @@ The [submission SDK](encrypted-submission.md) prepares encrypted inputs and
 owner approval once, then delivers immutable references through the published
 Fabric submission routes. The recorded TLS test checks ambiguous admission,
 repeated delivery, payload separation, and typed rate-limit and owner failures.
+
+## M1-PR28 asynchronous SDK lifecycle
+
+The [lifecycle SDK](asynchronous-lifecycle.md) exposes distinct public states,
+bounded asynchronous waiting, retry-stable cancellation, release-bound encrypted
+fetch and the authenticated local owner-agent bridge. Recorded workload-TLS
+and Unix-stream fixtures cover reconnects, pending cancellation, lost replies,
+wrong/unreleased scopes, immutable repeated delivery and disconnected owners.
+Native crypto and owner custody qualification remain separate upstream gates.

@@ -38,6 +38,7 @@ _SCHEMAS = {
             "KeyContext": "canonical/key-context.schema.json",
             "ApprovalV3": "canonical/v3/approval.schema.json",
             "SignatureV3": "canonical/v3/signature.schema.json",
+            "ReleaseAuthorizationV3": "canonical/v3/release-authorization.schema.json",
             "RegisterKeyContextRequest": "runtime/RegisterKeyContextRequest.schema.json",
             "CreateInputUploadRequest": "runtime/CreateInputUploadRequest.schema.json",
             "CreateUploadResponse": "runtime/CreateUploadResponse.schema.json",
@@ -48,6 +49,9 @@ _SCHEMAS = {
             ),
             "AdmitApprovedOperationRequest": "runtime/AdmitApprovedOperationRequest.schema.json",
             "OperationResponse": "runtime/OperationResponse.schema.json",
+            "CancelOperationRequest": "runtime/CancelOperationRequest.schema.json",
+            "CancelOperationResponse": "runtime/CancelOperationResponse.schema.json",
+            "ReadReleasedOutputRequest": "runtime/ReadReleasedOutputRequest.schema.json",
         }.items()
     },
 }
