@@ -25,6 +25,6 @@ and exercises the same golden vectors without the source checkout on `sys.path`.
 JSON Schema acceptance is structural only; spec semantic/cross-record checks,
 canonicalization, authorization and production qualification remain separate.
 
-CI is configured on pull requests/main pushes with commit-pinned actions, `contents: read`, no persistent Git credentials and no production secrets. A hosted CI result is not claimed by configuration. Maintainers must enable required status checks (`verify`), review/branch rules and any desired repository security settings; no remote protections are changed here. Local hooks are not merge enforcement.
+CI is configured on pull requests/main pushes with major-version action tags (except setup-uv, pinned to the approved release commit), `contents: read`, no persistent Git credentials and no production secrets. A hosted CI result is not claimed by configuration. Maintainers must enable required status checks (`verify`), review/branch rules and any desired repository security settings; no remote protections are changed here. Local hooks are not merge enforcement.
 
 No `.codex/config.toml` or repository skill is needed for the current workflow. Root instructions link detailed sources on demand and preserve the configured model/reasoning effort. Scoped instruction files are unnecessary because responsibilities do not yet require different agent rules.
